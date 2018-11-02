@@ -11,7 +11,7 @@ class Film
     @id = options['id'] if options['id']
   end
 
-  def all()
+  def self.all()
     sql = "SELECT * FROM films"
     SqlRunner.run(sql)
   end
