@@ -17,14 +17,15 @@ CREATE TABLE customers (
   funds INT4
 );
 
-CREATE TABLE tickets (
-  customer_id SERIAL4 REFERENCES customers(id) ON DELETE CASCADE,
-  film_id SERIAL4 REFERENCES films(id) ON DELETE CASCADE,
+CREATE TABLE screenings (
+  film_title VARCHAR(255) REFERENCES films(title) ON DELETE CASCADE,
+  showing_time TIME(4) UNIQUE,
   id SERIAL4 PRIMARY KEY
 );
 
-CREATE TABLE screenings (
-  film_title VARCHAR(255) REFERENCES films(title) ON DELETE CASCADE,
-  showing_time TIME(4),
+CREATE TABLE tickets (
+  customer_id SERIAL4 REFERENCES customers(id) ON DELETE CASCADE,
+  film_id SERIAL4 REFERENCES films(id) ON DELETE CASCADE,
+  showing_time TIME(4) REFERENCES screenings(showing_time) ON DELETE CASCADE,
   id SERIAL4 PRIMARY KEY
 );
