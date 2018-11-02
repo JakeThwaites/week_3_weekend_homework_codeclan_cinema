@@ -64,4 +64,18 @@ class Customer
     return total.count
   end
 
+  def buy_ticket(film)
+    # sql = "SELECT price FROM films WHERE id = $1;"
+    # values = [film.id]
+    # price = SqlRunner.run(sql, values)
+    price_of_film = film.price
+    if @funds >= price_of_film
+      @funds -= price_of_film
+      return "#{@name} bought a ticket for #{film.title}. Total funds left are #{@funds}"
+    else
+      return "#{@name} can't afford this!"
+    end
+
+  end
+
 end
