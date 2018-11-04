@@ -65,8 +65,8 @@ class Customer
   end
 
   def buy_ticket(film, screening)
-    if @funds >= price_of_film
-      screening.sell_ticket
+    if @funds >= film.price
+      screening.sell_ticket(film)
       @funds -= film.price
       return "#{@name} bought a ticket for #{film.title}. Total funds left are £#{@funds}."
     else

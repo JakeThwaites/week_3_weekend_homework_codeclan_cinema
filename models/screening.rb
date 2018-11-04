@@ -2,7 +2,7 @@ require_relative('../db/sql_runner')
 
 class Screening
 
-  attr_reader :film_title, :showing_time, :tickets_sold, :max_tickets_available, :id
+  attr_reader :film_title, :showing_time, :tickets_sold, :max_tickets_available, :id, :total_income
 
   def initialize(options)
     @film_title = options['film_title']
@@ -10,6 +10,7 @@ class Screening
     @tickets_sold = options['tickets_sold']
     @max_tickets_available = options['max_tickets_available']
     @id = options['id'] if options['id']
+    @total_income = 0
   end
 
   def save()
@@ -22,9 +23,10 @@ class Screening
     @max_tickets_available > @tickets_sold
   end
 
-  def sell_ticket()
+  def sell_ticket(film)
     if tickets_available
       @tickets_sold += 1
+      @total_income += film.price
     else
       p "There aren't any more tickets available."
       quit

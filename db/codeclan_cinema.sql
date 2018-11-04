@@ -22,6 +22,7 @@ CREATE TABLE screenings (
   showing_time TIME(4) UNIQUE,
   tickets_sold INT4,
   max_tickets_available INT4,
+  total_income INT4,
   id SERIAL4 PRIMARY KEY
 );
 
