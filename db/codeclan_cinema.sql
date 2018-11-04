@@ -20,6 +20,8 @@ CREATE TABLE customers (
 CREATE TABLE screenings (
   film_title VARCHAR(255) REFERENCES films(title) ON DELETE CASCADE,
   showing_time TIME(4) UNIQUE,
+  tickets_sold INT4,
+  max_tickets_available INT4,
   id SERIAL4 PRIMARY KEY
 );
 

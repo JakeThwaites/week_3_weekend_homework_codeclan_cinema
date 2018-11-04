@@ -28,15 +28,15 @@ class Customer
     @id = customer['id'].to_i
   end
 
-  def delete()
-    sql = "DELETE FROM customers WHERE id = $1"
-    values = [@id]
-    SqlRunner.run(sql, values)
-  end
-
   def update()
     sql = "UPDATE customers SET (name, funds) = ($1, $2) WHERE id = $3;"
     values = [@name, @funds, @id]
+    SqlRunner.run(sql, values)
+  end
+
+  def delete()
+    sql = "DELETE FROM customers WHERE id = $1"
+    values = [@id]
     SqlRunner.run(sql, values)
   end
 
@@ -61,17 +61,14 @@ class Customer
     values = [@id]
     tickets = SqlRunner.run(sql, values)
     total = tickets.map { |ticket| Ticket.new(ticket) }
-    return total.count
+    return "#{@name} has bought #{total.count} tickets."
   end
 
-  def buy_ticket(film)
-    # sql = "SELECT price FROM films WHERE id = $1;"
-    # values = [film.id]
-    # price = SqlRunner.run(sql, values)
-    price_of_film = film.price
+  def buy_ticket(film, screening)
     if @funds >= price_of_film
-      @funds -= price_of_film
-      return "#{@name} bought a ticket for #{film.title}. Total funds left are #{@funds}"
+      screening.sell_ticket
+      @funds -= film.price
+      return "#{@name} bought a ticket for #{film.title}. Total funds left are £#{@funds}."
     else
       return "#{@name} can't afford this!"
     end

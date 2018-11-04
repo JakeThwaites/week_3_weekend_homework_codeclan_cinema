@@ -63,4 +63,17 @@ class Film
     total = customers.map { |customer| Customer.new(customer) }
     return total.count
   end
+
+  def most_popular_viewing_time()
+    sql = "SELECT showing_time
+          FROM tickets
+          INNER JOIN films
+          ON films.id = tickets.film_id
+          WHERE films.id = $1"
+    values = [@id]
+    viewing_times = SqlRunner.run(sql, values)
+    all_times = viewing_times.map { |time| Ticket.new(time) }
+    most_popular = all_times.max_by{ |time| all_times.count(time) }
+    return "The most popular viewing time is #{most_popular.showing_time}"
+  end
 end
