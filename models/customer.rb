@@ -68,6 +68,9 @@ class Customer
     if @funds >= film.price
       screening.sell_ticket(film)
       @funds -= film.price
+      new_ticket = Ticket.new({'customer_id' => @id, 'film_id' => film.id, 'showing_time' => screening.showing_time})
+      new_ticket.save
+      self.update()
       return "#{@name} bought a ticket for #{film.title}. Total funds left are £#{@funds}."
     else
       return "#{@name} can't afford this!"

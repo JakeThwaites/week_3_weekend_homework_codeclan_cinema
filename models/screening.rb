@@ -19,6 +19,12 @@ class Screening
     SqlRunner.run(sql, values)
   end
 
+  def update()
+    sql = "UPDATE screenings SET (film_title, showing_time, tickets_sold, max_tickets_available, total_income) = ($1, $2, $3, $4, $5) WHERE id = $6"
+    values = [@film_title, @showing_time, @tickets_sold, @max_tickets_available, @total_income, @id]
+    SqlRunner.run(sql, values)
+  end
+
   def tickets_available()
     @max_tickets_available > @tickets_sold
   end
@@ -27,6 +33,7 @@ class Screening
     if tickets_available
       @tickets_sold += 1
       @total_income += film.price
+      update
     else
       p "There aren't any more tickets available."
       quit
